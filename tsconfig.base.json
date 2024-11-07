@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@nx-next-cms-poc/nextjs": ["libs/nextjs/src/index.ts"],
+      "@nx-next-cms-poc/nextjs/server": ["libs/nextjs/src/server.ts"],
+      "@nx-next-cms-poc/payload": ["libs/payload/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

@@ -1,82 +1,186 @@
-# NxNextCmsPoc
+# Setting Up Nx Workspace with Next.js and Payload CMS
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+This guide will help you set up an Nx workspace with Next.js and Payload CMS for both `green` and `blue` apps.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+## Project Structure
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/next?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
-
-## Finish your CI setup
-
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/UModJvmsSa)
-
-
-## Run tasks
-
-To run the dev server for your app, use:
-
-```sh
-npx nx dev websites
+```
+apps/
+  green/
+    nextjs/
+      # Next.js app files
+    payload/
+      payload.config.ts
+      main.ts
+      # Payload CMS app files
+  blue/
+    nextjs/
+      # Next.js app files
+    payload/
+      payload.config.ts
+      main.ts
+      # Payload CMS app files
+libs/
+  nextjs/
+    # Shared libraries for Next.js apps
+  payload/
+    # Shared libraries for Payload CMS apps
 ```
 
-To create a production bundle:
+## Prerequisites
+
+- Node.js and npm installed
+- Nx CLI installed globally
+
+## Steps
+
+### 1. Create a New Nx Workspace
+
+If you haven't already, create a new Nx workspace:
 
 ```sh
-npx nx build websites
+npx create-nx-workspace@latest my-workspace
+cd my-workspace
 ```
 
-To see all available targets to run for a project, run:
+### 2. Add Necessary Nx Plugins
+
+Add the Nx plugins for Next.js and Node:
 
 ```sh
-npx nx show project websites
+npx nx add @nx/next
+npx nx add @nx/node
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+### 3. Create the Directory Structure
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
+Manually create the directories for the apps:
 
 ```sh
-npx nx g @nx/next:app demo
+mkdir -p apps/green/nextjs apps/green/payload apps/blue/nextjs apps/blue/payload
 ```
 
-To generate a new library, use:
+### 4. Generate the `green-nextjs` App
+
+Generate the Next.js app for the `green` project:
 
 ```sh
-npx nx g @nx/react:lib mylib
+npx nx g @nx/next:app apps/green/nextjs --name=green-nextjs --e2eTestRunner=none
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### 5. Generate the `blue-nextjs` App
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Generate the Next.js app for the `blue` project:
 
+```sh
+npx nx g @nx/next:app apps/blue/nextjs --name=blue-nextjs --e2eTestRunner=none
+```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### 6. Generate the `green-payload` App
 
-## Install Nx Console
+Generate the Payload CMS app for the `green` project:
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+```sh
+npx nx g @nx/node:app apps/green/payload --name=green-payload --framework=express --unitTestRunner=none --e2eTestRunner=none
+```
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### 7. Generate the `blue-payload` App
 
-## Useful links
+Generate the Payload CMS app for the `blue` project:
 
-Learn more:
+```sh
+npx nx g @nx/node:app apps/blue/payload --name=blue-payload --framework=express --unitTestRunner=none --e2eTestRunner=none
+```
 
-- [Learn more about this workspace setup](https://nx.dev/nx-api/next?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### 8. Install Payload CMS
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Install Payload CMS in the `green/payload` and `blue/payload` apps:
+
+```sh
+cd apps/green/payload
+npm install payload
+cd ../../../apps/blue/payload
+npm install payload
+```
+
+### 9. Configure Payload CMS
+
+Create a `payload.config.ts` file in both `green/payload` and `blue/payload` directories with the following content:
+
+```ts
+import { buildConfig } from 'payload/config';
+
+export default buildConfig({
+  collections: [
+    // Define your collections here
+  ],
+});
+```
+
+Update the `main.ts` file in both `green/payload` and `blue/payload` directories to initialize Payload CMS:
+
+```ts
+import express from 'express';
+import payload from 'payload';
+import path from 'path';
+
+require('dotenv').config();
+const app = express();
+
+app.use('/admin', payload.authenticate);
+
+payload.init({
+  secret: process.env.PAYLOAD_SECRET,
+  mongoURL: process.env.MONGO_URL,
+  express: app,
+  configPath: path.resolve(__dirname, 'payload.config.ts'),
+});
+
+app.listen(3000, () => {
+  console.log('Payload CMS is running on http://localhost:3000/admin');
+});
+```
+
+### 10. Create the `libs` Directories
+
+Create the shared libraries directories:
+
+```sh
+mkdir -p libs/nextjs libs/payload
+```
+
+### 11. Generate Libraries
+
+Generate the libraries for `nextjs` and `payload`:
+
+```sh
+npx nx g @nx/next:lib libs/nextjs
+npx nx g @nx/node:library libs/payload
+```
+
+## Running the Apps
+
+You can now run the apps using Nx commands:
+
+- To run the `green-nextjs` app:
+
+  ```sh
+  npx nx serve green-nextjs
+  ```
+
+- To run the `blue-nextjs` app:
+
+  ```sh
+  npx nx serve blue-nextjs
+  ```
+
+- To run the `green-payload` app:
+
+  ```sh
+  npx nx serve green-payload
+  ```
+
+- To run the `blue-payload` app:
+  ```sh
+  npx nx serve blue-payload
+  ```

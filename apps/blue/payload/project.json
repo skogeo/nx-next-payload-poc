@@ -1,0 +1,58 @@
+{
+  "name": "blue-payload",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/blue/payload/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/blue/payload",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/blue/payload/src/main.ts",
+        "tsConfig": "apps/blue/payload/tsconfig.app.json",
+        "assets": ["apps/blue/payload/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "blue-payload:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "blue-payload:build:development"
+        },
+        "production": {
+          "buildTarget": "blue-payload:build:production"
+        }
+      }
+    }
+  }
+}
