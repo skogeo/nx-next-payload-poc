@@ -1,14 +1,20 @@
-import express from 'express';
+import express from 'express'
+import payload from 'payload'
 
-const host = process.env.HOST ?? 'localhost';
-const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+require('dotenv').config()
+const app = express()
 
-const app = express();
+const start = async () => {
+  await payload.init({
+    secret: process.env.PAYLOAD_SECRET || 'my-secret',
+    express: app,
+  })
 
-app.get('/', (req, res) => {
-  res.send({ message: 'Hello API' });
-});
+  app.listen(3000, async () => {
+    console.log(
+      "Express is now listening for incoming connections on port 3000."
+    )
+  })
+}
 
-app.listen(port, host, () => {
-  console.log(`[ ready ] http://${host}:${port}`);
-});
+start()

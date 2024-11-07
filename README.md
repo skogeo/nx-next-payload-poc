@@ -122,7 +122,6 @@ Update the `main.ts` file in both `green/payload` and `blue/payload` directories
 ```ts
 import express from 'express';
 import payload from 'payload';
-import path from 'path';
 
 require('dotenv').config();
 const app = express();
@@ -131,9 +130,7 @@ app.use('/admin', payload.authenticate);
 
 payload.init({
   secret: process.env.PAYLOAD_SECRET,
-  mongoURL: process.env.MONGO_URL,
   express: app,
-  configPath: path.resolve(__dirname, 'payload.config.ts'),
 });
 
 app.listen(3000, () => {
@@ -162,16 +159,58 @@ npx nx g @nx/node:library libs/payload
 
 You can now run the apps using Nx commands:
 
-- To run the `green-nextjs` app:
+To update the Nx targets in the README according to the commands from the Nx plugins configuration, you can add the following section at the end of the README:
+
+## Running the Apps
+
+You can now run the apps using Nx commands:
+
+- To build the `green-nextjs` app:
 
   ```sh
-  npx nx serve green-nextjs
+  npx nx build green-nextjs
   ```
 
-- To run the `blue-nextjs` app:
+- To build the `blue-nextjs` app:
 
   ```sh
-  npx nx serve blue-nextjs
+  npx nx build blue-nextjs
+  ```
+
+- To develop the `green-nextjs` app:
+
+  ```sh
+  npx nx dev green-nextjs
+  ```
+
+- To develop the `blue-nextjs` app:
+
+  ```sh
+  npx nx dev blue-nextjs
+  ```
+
+- To start the `green-nextjs` app:
+
+  ```sh
+  npx nx start green-nextjs
+  ```
+
+- To start the `blue-nextjs` app:
+
+  ```sh
+  npx nx start blue-nextjs
+  ```
+
+- To serve static files for the `green-nextjs` app:
+
+  ```sh
+  npx nx serve-static green-nextjs
+  ```
+
+- To serve static files for the `blue-nextjs` app:
+
+  ```sh
+  npx nx serve-static blue-nextjs
   ```
 
 - To run the `green-payload` app:
