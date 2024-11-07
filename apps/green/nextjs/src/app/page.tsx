@@ -1,4 +1,5 @@
 import styles from './page.module.scss';
+import { HelloServer } from '@nx-next-cms-poc/nextjs/server';
 
 export default function Index() {
   /*
@@ -8,8 +9,9 @@ export default function Index() {
    */
   return (
     <div className={styles.page}>
+      <HelloServer />
       <div className="wrapper">
-        <div className="container">
+        <div claßssName="container">
           <div id="welcome">
             <h1>
               <span> Hello there, </span>
